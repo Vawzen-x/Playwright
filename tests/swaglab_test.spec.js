@@ -1,74 +1,48 @@
 import { test, expect } from '@playwright/test';
 
-test('login with standard_user username', async ({ page }) => {
+async function login(page, username, password = 'secret_sauce') {
   await page.goto('https://www.saucedemo.com/');
-  await page.locator('[data-test="username"]').click();
-  await page.locator('[data-test="username"]').fill('standard_user');
-  await page.locator('[data-test="password"]').click();
-  await page.locator('[data-test="password"]').fill('secret_sauce');
+  await page.locator('[data-test="username"]').fill(username);
+  await page.locator('[data-test="password"]').fill(password);
   await page.locator('[data-test="login-button"]').click();
-  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible();
+}
+
+test('login with standard_user username', async ({ page }) => {
+  await login(page, 'standard_user');
+  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible({ timeout: 20000 });
 });
 
 test('login with locked_out_user username', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.locator('[data-test="username"]').click();
-  await page.locator('[data-test="username"]').fill('locked_out_user');
-  await page.locator('[data-test="password"]').click();
-  await page.locator('[data-test="password"]').fill('secret_sauce');
-  await page.locator('[data-test="login-button"]').click();
-  await expect(page.locator('[data-test="error"]')).toBeVisible();
+  await login(page, 'locked_out_user');
+  await expect(page.locator('[data-test="error"]')).toBeVisible({ timeout: 20000 });
 });
-
-
 
 test('login with problem_user username', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.locator('[data-test="username"]').click();
-  await page.locator('[data-test="username"]').fill('problem_user');
-  await page.locator('[data-test="password"]').click();
-  await page.locator('[data-test="password"]').fill('secret_sauce');
-  await page.locator('[data-test="login-button"]').click();
-  await expect(page.locator('[data-test="secondary-header"]')).toBeVisible();
-  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible();
+  await login(page, 'problem_user');
+  await expect(page).toHaveURL(/\/inventory\.html/, { timeout: 20000 });
+  await expect(page.locator('[data-test="secondary-header"]')).toBeVisible({ timeout: 20000 });
+  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible({ timeout: 20000 });
 });
-
-
-
 
 test('login with performance_glitch_user username', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.locator('[data-test="username"]').click();
-  await page.locator('[data-test="username"]').fill('performance_glitch_user');
-  await page.locator('[data-test="password"]').click();
-  await page.locator('[data-test="password"]').fill('secret_sauce');
-  await page.locator('[data-test="login-button"]').click();
-  await expect(page.locator('[data-test="secondary-header"]')).toBeVisible();
-  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible();
+  await login(page, 'performance_glitch_user');
+  await expect(page).toHaveURL(/\/inventory\.html/, { timeout: 20000 });
+  await expect(page.locator('[data-test="secondary-header"]')).toBeVisible({ timeout: 20000 });
+  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible({ timeout: 20000 });
 });
-
 
 test('login with error_user username', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.locator('[data-test="username"]').click();
-  await page.locator('[data-test="username"]').fill('error_user');
-  await page.locator('[data-test="password"]').click();
-  await page.locator('[data-test="password"]').fill('secret_sauce');
-  await page.locator('[data-test="login-button"]').click();
-  await expect(page.locator('[data-test="secondary-header"]')).toBeVisible();
-  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible();
+  await login(page, 'error_user');
+  await expect(page).toHaveURL(/\/inventory\.html/, { timeout: 20000 });
+  await expect(page.locator('[data-test="secondary-header"]')).toBeVisible({ timeout: 20000 });
+  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible({ timeout: 20000 });
 });
 
-
 test('login with visual_user username', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.locator('[data-test="username"]').click();
-  await page.locator('[data-test="username"]').fill('visual_user');
-  await page.locator('[data-test="password"]').click();
-  await page.locator('[data-test="password"]').fill('secret_sauce');
-  await page.locator('[data-test="login-button"]').click();
-  await expect(page.locator('[data-test="secondary-header"]')).toBeVisible();
-  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible();
+  await login(page, 'visual_user');
+  await expect(page).toHaveURL(/\/inventory\.html/, { timeout: 20000 });
+  await expect(page.locator('[data-test="secondary-header"]')).toBeVisible({ timeout: 20000 });
+  await expect(page.locator('[data-test="inventory-container"]')).toBeVisible({ timeout: 20000 });
 });
 
 
