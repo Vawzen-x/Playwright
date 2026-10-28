@@ -67,10 +67,10 @@ test('Create Employee', async ({ page }) => {
   await page.getByRole('link', { name: 'PIM' }).click();
   await page.getByRole('button', { name: ' Add' }).click();
   await page.getByRole('textbox', { name: 'First Name' }).click();
-  await page.getByRole('textbox', { name: 'First Name' }).press('CapsLock');
-  await page.getByRole('textbox', { name: 'First Name' }).fill('SHASHANK');
+  await page.getByRole('textbox', { name: 'First Name' }).press();
+  await page.getByRole('textbox', { name: 'First Name' }).fill();
   await page.getByRole('textbox', { name: 'Last Name' }).click();
-  await page.getByRole('textbox', { name: 'Last Name' }).fill('R');
+  await page.getByRole('textbox', { name: 'Last Name' }).fill();
   await page.getByRole('textbox').nth(4).click();
   await page.getByRole('textbox').nth(4).fill(faker.string.numeric(7));
   await page.getByRole('button', { name: 'Save' }).click();
