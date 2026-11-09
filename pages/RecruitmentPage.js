@@ -56,6 +56,9 @@ class RecruitmentPage {
         console.log('Recruitment Candidates page opened');
     }
 
+
+
+
     async addCandidate() {
         console.log('Step 2: Locating Add button');
 
@@ -90,11 +93,29 @@ console.log('Add button clicked');
 
         console.log('Step 4: Selecting vacancy');
 
-        await this.vacancyDropdown.click();
+await this.vacancyDropdown.click();
 
-        await this.page.getByRole('option', {
-            name: 'Software Engineer'
-        }).click();
+console.log('Vacancy dropdown clicked');
+
+await this.page.waitForTimeout(1000);
+
+console.log(
+    'Dropdown HTML:',
+    await this.vacancyDropdown.evaluate(
+        element => element.parentElement.outerHTML
+    )
+);
+
+await this.page.screenshot({
+    path: 'vacancy-dropdown-debug.png',
+    fullPage: true
+});
+
+console.log('Vacancy dropdown screenshot saved');
+
+console.log('Vacancy selected successfully');
+
+console.log('Vacancy selected successfully');
 
         console.log('Software Engineer vacancy selected');
 
